@@ -1,0 +1,8 @@
+::ng-deep .ngx-pagination .current{
+background-color: var(--color-main-500) !important; 
+}
+
+
+::ng-deep .ngx-pagination li{
+border-radius: 50% !important;
+}

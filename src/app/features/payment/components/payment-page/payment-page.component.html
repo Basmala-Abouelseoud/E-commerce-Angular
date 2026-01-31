@@ -1,0 +1,98 @@
+<div class="w-full h-screen flex items-center justify-center bg-green-800">
+  <form [formGroup]="userInfoForm" (ngSubmit)="sendUserInfo()" class="w-full md:w-1/2 rounded-lg">
+    <div class="flex font-bold justify-center mt-6">
+      <img class=" mb-3" src="/images/freshcart-logo.svg" />
+    </div>
+    <div class="px-12 pb-10">
+      <div class="w-full mb-2">
+        <div class="flex items-center">
+          <input
+          formControlName="details"
+            type="text"
+            placeholder="Details"
+            class="
+              w-full
+              border
+              rounded
+              px-3
+              py-2
+              text-gray-700
+              focus:outline-none
+            "
+          />
+          
+        </div>
+          <div class="flex items-center">
+          <input
+           formControlName="phone"
+            type="text"
+            placeholder="Phone"
+            class="
+              w-full
+              border
+              rounded
+              px-3
+              py-2
+              text-gray-700
+              focus:outline-none
+            "
+          />
+          
+        </div>  
+        <div class="flex items-center">
+          <input
+           formControlName="city"
+            type="text"
+            placeholder="City"
+            class="
+              w-full
+              border
+              rounded
+              px-3
+              py-2
+              text-gray-700
+              focus:outline-none
+            "
+          />
+          
+        </div>
+      </div>
+
+<div class="flex gap-2">
+          <button
+          (click)="selectedMethod = 'cash'"
+        type="submit"
+        class="
+          w-full
+          py-2
+          mt-8
+          rounded-full
+          btn-main
+          
+          text-gray-100
+          focus:outline-none
+        "
+      >
+      <i class="fas fa-cash-register"></i>
+        Cash On Delivery
+      </button>
+            <button
+            (click)="selectedMethod = 'online'"
+        type="submit"
+        class="
+          w-full
+          py-2
+          mt-8
+          rounded-full
+         btn-main
+          text-gray-100
+          focus:outline-none
+        "
+      >
+      <i class="fas fa-shopping-cart"></i>
+        Online Payment
+      </button>
+</div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,204 @@
+@if(!productsService.productDetails){
+  <app-loading-spinner/>
+} @else {
+  <section class="bg-gray-50 py-12 min-h-screen">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 border rounded-4xl my-5 py-2">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          
+          <!-- Product Images Section -->
+          <div class="space-y-4">
+            <!-- Main Image -->
+            <div class="aspect-square rounded-2xl overflow-hidden bg-white shadow-lg border border-gray-200">
+              <img 
+                [src]="selectedImage || productsService.productDetails.imageCover" 
+                [alt]="productsService.productDetails.title"
+                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            
+            <!-- Image Gallery -->
+            <div class="grid grid-cols-4 gap-3">
+              <div 
+                (click)="selectedImage = productsService.productDetails.imageCover"
+                [class.border-green-500]="!selectedImage || selectedImage === productsService.productDetails.imageCover"
+                [class.border-gray-200]="selectedImage && selectedImage !== productsService.productDetails.imageCover"
+                class="aspect-square rounded-lg overflow-hidden border-2 bg-white cursor-pointer hover:border-green-500 transition-colors">
+                <img 
+                  [src]="productsService.productDetails.imageCover" 
+                  [alt]="productsService.productDetails.title"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              @for(image of productsService.productDetails.images; track image) {
+                <div 
+                  (click)="selectedImage = image"
+                  [class.border-green-500]="selectedImage === image"
+                  [class.border-gray-200]="selectedImage !== image"
+                  class="aspect-square rounded-lg overflow-hidden border-2 bg-white cursor-pointer hover:border-green-500 transition-colors">
+                  <img 
+                    [src]="image" 
+                    [alt]="productsService.productDetails.title"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Product Details Section -->
+          <div class="space-y-6">
+            
+            <!-- Brand -->
+            <div class="flex items-center gap-3">
+              <img 
+                [src]="productsService.productDetails.brand.image" 
+                [alt]="productsService.productDetails.brand.name"
+                class="w-16 h-16 rounded-lg object-contain bg-white border border-gray-200 p-2"
+              />
+              <span class="text-sm font-medium text-gray-600 uppercase tracking-wider">
+                {{productsService.productDetails.brand.name}}
+              </span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+              {{productsService.productDetails.title}}
+            </h1>
+
+            <!-- Rating -->
+            <div class="flex items-center gap-4">
+              <div class="flex items-center gap-1">
+                @for(star of [1,2,3,4,5]; track star) {
+                  <svg 
+                    class="w-5 h-5" 
+                    [class.text-yellow-400]="star <= productsService.productDetails.ratingsAverage"
+                    [class.text-gray-300]="star > productsService.productDetails.ratingsAverage"
+                    fill="currentColor" 
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                }
+              </div>
+              <span class="text-sm text-gray-600">
+                {{productsService.productDetails.ratingsAverage}} 
+                ({{productsService.productDetails.ratingsQuantity}} reviews)
+              </span>
+            </div>
+
+            <!-- Price -->
+            <div class="flex items-baseline gap-3">
+              <span class="text-4xl font-bold text-green-600">
+                  @if(productsService.productDetails.priceAfterDiscount) {
+                ${{productsService.productDetails.priceAfterDiscount}}
+                <span class="text-2xl text-gray-400 line-through">
+                  ${{productsService.productDetails.price}}
+                </span>
+              }
+              @else {
+             ${{productsService.productDetails.price}}
+
+              }
+              </span>
+            
+            </div>
+
+            <!-- Category -->
+            <div class="flex items-center gap-2">
+              <span class="text-sm text-gray-600">Category:</span>
+              <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                {{productsService.productDetails.category.name}}
+              </span>
+            </div>
+
+            <!-- Description -->
+            <div class="border-t border-b border-gray-200 py-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">Product Description</h3>
+              <p class="text-gray-600 leading-relaxed">
+                {{productsService.productDetails.description}}
+              </p>
+            </div>
+
+            <!-- Quantity Selector -->
+            <div class="flex items-center gap-4">
+              <span class="text-sm font-medium text-gray-700">Quantity:</span>
+              <div class="flex items-center border-2 border-gray-300 rounded-lg overflow-hidden">
+                <button 
+                  (click)="decreaseQuantity()"
+                  class="px-4 py-2 bg-gray-100 hover:bg-gray-200 transition-colors">
+                  <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                  </svg>
+                </button>
+                <input 
+                  type="number" 
+                  [(ngModel)]="quantity"
+                  min="1"
+                  class="w-16 text-center py-2 focus:outline-none"
+                />
+                <button 
+                  (click)="increaseQuantity()"
+                  class="px-4 py-2 bg-gray-100 hover:bg-gray-200 transition-colors">
+                  <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-4 pt-4">
+              <button 
+                (click)="addToCart()"
+                class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                <div class="flex items-center justify-center gap-2">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                  <span>Add to Cart</span>
+                </div>
+              </button>
+              
+              <button 
+                (click)="toggleWishlist()"
+                [class.bg-green-50]="isInWishlist"
+                [class.text-green-600]="isInWishlist"
+                [class.border-green-600]="isInWishlist"
+                class="bg-white hover:bg-gray-50 text-gray-600 border-2 border-gray-300 font-semibold py-4 px-6 rounded-xl transition-all duration-300">
+                <svg class="w-6 h-6" [class.fill-green-600]="isInWishlist" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="bg-green-50 rounded-xl p-6 space-y-3">
+              <div class="flex items-center gap-3 text-green-800">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-sm">Free shipping on orders over $50</span>
+              </div>
+              <div class="flex items-center gap-3 text-green-800">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="text-sm">14-day return guarantee</span>
+              </div>
+              <div class="flex items-center gap-3 text-green-800">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="text-sm">Delivery within 2-4 business days</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-related-products />
+  </section>
+}

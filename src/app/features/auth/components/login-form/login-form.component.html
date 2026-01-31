@@ -1,0 +1,59 @@
+<form [formGroup]="loginForm">
+    <div class="mt-10">
+
+        <!-- input field : user email -->
+       <app-auth-input
+       formControlName="email"
+        [control]="loginForm.get('email')"
+         [label]="'User Email:'"
+          [id]="'userEmail'"
+           [type]="'email'" />
+
+        <!-- input field : user password -->
+
+<app-auth-input
+       formControlName="password"
+        [control]="loginForm.get('password')"
+         [label]="'User Password:'"
+          [id]="'userPassword'"
+           [type]="'password'" />
+
+
+<div class="flex flex-col items-center justify-center ">
+       
+        <div class="my-4">
+            <button [disabled]="isLoading" (click)="submitData()" type="submit" class="w-full btn-main btn">Login
+
+                @if(isLoading){
+                <i class="fas fa-spinner fa-spin"></i>
+                }
+            </button>
+        </div>
+          <a routerLink="/forget-password" class="text-blue-700">Forget password</a>
+
+
+</div>
+
+
+      
+        <!-- success message -->
+        @if(successMessage){
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4" role="alert">
+            <p class="font-bold">{{successMessage}}</p>
+            <p>You will be redirected after {{redirectCounter}} seconds...</p>
+        </div>
+        }
+
+
+        <!-- error message -->
+        @if(errorMessage){
+        <div>
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+                <p class="font-bold"></p>
+                {{errorMessage}}
+            </div>
+        </div>
+        }
+
+    </div>
+</form>

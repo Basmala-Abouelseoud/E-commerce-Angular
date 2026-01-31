@@ -1,0 +1,17 @@
+ body{
+    background-image: url('/images/light-patten.svg');
+ }
+
+ @layer components {
+   .btn-main, .active-link {
+      @apply bg-main-600 hover:bg-main-400 disabled:cursor-not-allowed disabled:text-dark disabled:bg-light transition-colors duration-500 cursor-pointer px-5 py-2 rounded-2xl text-light
+   }
+
+ }
+
+ @layer components {
+   
+.main-card-hover {
+    @apply rounded-lg hover:border-main-400 duration-75 border-transparent hover:border-2 hover:shadow-main;
+}
+ }

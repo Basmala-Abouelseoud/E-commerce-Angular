@@ -1,0 +1,63 @@
+<section class="container mx-auto py-16 px-4">
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <h2 class="text-4xl font-bold mb-2 bg-linear-to-r from-red-500 to-pink-600 bg-clip-text text-transparent">
+      ❤️ My Wishlist
+    </h2>
+    <p class="text-gray-500 text-sm">{{ wishlistProducts.length }} items in your wishlist</p>
+  </div>
+
+  <!-- Empty State -->
+  @if (wishlistProducts.length === 0) {
+    <div class="flex flex-col items-center justify-center py-20">
+      <div class="w-24 h-24 bg-linear-to-br from-red-100 to-pink-100 rounded-full flex items-center justify-center mb-4">
+        <span class="text-5xl">💔</span>
+      </div>
+      <p class="text-gray-400 text-2xl font-semibold">Wishlist is empty</p>
+      <p class="text-gray-400 text-sm mt-2">Add products you love to see them here</p>
+    </div>
+  } @else {
+    <!-- Products Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+      @for (product of wishlistProducts; track product._id) {
+        <div class="group bg-white p-5 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+
+          <!-- Image -->
+          <div class="relative overflow-hidden rounded-xl mb-4">
+            <img
+              [src]="product.imageCover"
+              class="w-full h-52 object-contain group-hover:scale-105 transition-transform duration-300">
+            
+            <!-- Heart Badge -->
+            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg">
+              <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Title -->
+          <h3 class="font-bold text-gray-800 text-base mb-3 line-clamp-1 group-hover:text-red-600 transition-colors">
+            {{ product.title }}
+          </h3>
+
+          <!-- Price -->
+          <p class="text-green-600 font-bold text-xl mb-4">
+            {{ product.price }} <span class="text-base">EGP</span>
+          </p>
+
+          <!-- Remove Button -->
+          <button
+            (click)="remove(product._id)"
+            class="w-full bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+            Remove
+          </button>
+
+        </div>
+      }
+    </div>
+  }
+</section>

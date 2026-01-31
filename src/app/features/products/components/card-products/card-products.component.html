@@ -1,0 +1,54 @@
+<div class="bg-white group relative main-card-hover overflow-hidden h-full">
+   <div class="h-full flex flex-col border-2  border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+      <a [routerLink]="['/details', prod._id, prod.slug]">
+         <img class="lg:h-96 md:h-36 w-full object-contain object-center" [src]="prod.imageCover" [alt]="prod.title" />
+      </a>
+
+      <div class="p-6 grow flex flex-col justify-between">
+         <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2>
+         <h2 class="title-font text-lg font-medium line-clamp-1 text-gray-900 mb-3">{{prod.title}}</h2>
+         <p class="leading-relaxed mb-3 line-clamp-2">
+            {{prod.description}}
+         </p>
+         <div>
+            <button 
+            [disabled]="isLoading"
+            (click)="addToCart(prod._id)" class="btn-main w-full justify-center flex items-center mb-2">
+               @if(isLoading){
+               Adding...
+               <i class="fas fa-spinner fa-spin mx-2"></i>
+               }@else {
+               Add to cart
+               }
+
+            </button>
+            <div class="flex items-center justify-between">
+               <span class="text-black font-bold inline-flex items-center leading-none text-sm">
+                  Price {{prod.price}} $
+               </span>
+               <span
+                  class="text-rating mr-3 font-bold inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 ">
+                  {{prod.ratingsAverage}} <i class="far fa-star"></i>
+               </span>
+            </div>
+
+
+         </div>
+
+      </div>
+
+   </div>
+
+   <button (click)="toggleWishlist(prod._id)"
+      class="absolute  top-10 end-10 duration-700 group-hover:translate-x-0 cursor-pointer translate-x-[200%]">
+
+      <i class="fa-heart transition text-red-800 text-4xl" [class.fas]="wishlistService.isInWishlist(prod._id)"
+         [class.far]="!wishlistService.isInWishlist(prod._id)"
+         [class.text-red-600]="wishlistService.isInWishlist(prod._id)"
+         [class.text-gray-400]="!wishlistService.isInWishlist(prod._id)">
+      </i>
+
+   </button>
+
+
+</div>
