@@ -2,8 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WishlistService } from '../../wishlist.service';
 import { Product } from '../../Interfaces/IWishlistResponse';
-import { RouterLink } from "@angular/router";
-import { CartService } from '../../../cart/services/cart.service';
+
 
 @Component({
   selector: 'app-wishlist-pag',

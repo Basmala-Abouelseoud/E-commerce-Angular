@@ -73,7 +73,7 @@
             @for (item of order.cartItems; track item._id) {
               <div class="flex items-center gap-4 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
                 <!-- Product Image -->
-                <div class="flex-shrink-0">
+                <div class="shrink-0">
                   <img 
                     [src]="item.product.imageCover" 
                     [alt]="item.product.title"
@@ -82,7 +82,7 @@
                 </div>
 
                 <!-- Product Details -->
-                <div class="flex-grow min-w-0">
+                <div class="grow min-w-0">
                   <h3 class="font-semibold text-gray-900 truncate">{{ item.product.title }}</h3>
                   <div class="flex flex-wrap items-center gap-3 mt-1 text-sm text-gray-600">
                     <span class="flex items-center">
@@ -97,7 +97,7 @@
                 </div>
 
                 <!-- Quantity & Price -->
-                <div class="flex flex-col items-end gap-1 flex-shrink-0">
+                <div class="flex flex-col items-end gap-1 shrink-0">
                   <p class="font-semibold text-lg text-gray-900">{{ item.price }} EGP</p>
                   <p class="text-sm text-gray-600">Qty: {{ item.count }}</p>
                 </div>

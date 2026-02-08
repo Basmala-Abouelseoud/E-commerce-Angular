@@ -7,27 +7,27 @@ import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink,RouterLinkActive, AsyncPipe],
+  imports: [RouterLink, RouterLinkActive, AsyncPipe],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent implements OnInit {
- //injected services
- private readonly authService = inject(AuthService)
- public readonly cartService = inject(CartService)
- public readonly wishlistService = inject(WishlistService)
+  //injected services
+  private readonly authService = inject(AuthService);
+  public readonly cartService = inject(CartService);
+  public readonly wishlistService = inject(WishlistService);
 
+  isMobileMenuOpen = false;
+  isUserDropdownOpen = false;
 
- @Input() isLogin = false;
+  isLogin$ = this.authService.isLoggedIn$;
 
- logOut():void{
-this.authService.logOut();
- }
+  logOut(): void {
+    this.authService.logOut();
+  }
 
-ngOnInit(): void {
-  this.cartService.getCart()
-  this.wishlistService.getWishlist()
-
-
-}
+  ngOnInit(): void {
+    this.cartService.getCart();
+    this.wishlistService.getWishlist();
+  }
 }

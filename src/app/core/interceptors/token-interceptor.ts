@@ -5,14 +5,19 @@ import { STORED_KEYS } from '../constants/storedKeys';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
-  // لو مش cart ولا wishlist → عدي
-  if (
-    !req.urlWithParams.includes('cart') &&
-    !req.urlWithParams.includes('wishlist') &&
-    !req.urlWithParams.includes('orders')
+  const protectedEndpoints = [
+    'cart',
+    'wishlist',
+    'orders',
+    'users/changeMyPassword', 
+  ];
 
+  // لو request مش محتاج auth → عدي
+  const needsToken = protectedEndpoints.some(endpoint =>
+    req.urlWithParams.includes(endpoint)
+  );
 
-  ) {
+  if (!needsToken) {
     return next(req);
   }
 
@@ -21,7 +26,6 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   if (isPlatformBrowser(platform)) {
     const token = localStorage.getItem(STORED_KEYS.USER_TOKEN);
     console.log('TOKEN FROM INTERCEPTOR:', token);
-
 
     if (token) {
       req = req.clone({

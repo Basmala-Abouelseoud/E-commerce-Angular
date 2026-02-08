@@ -29,9 +29,9 @@ export class PaymentPageComponent {
 
   initUserInfoForm(): void {
     this.userInfoForm = this.fb.group({
-      details: 'details',
-      phone: '01010800921',
-      city: 'Cairo',
+      details: '',
+      phone: '',
+      city: '',
     });
   }
 

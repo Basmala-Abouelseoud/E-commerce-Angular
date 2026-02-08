@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-forget-password-form',
@@ -14,6 +15,7 @@ export class ForgetPasswordFormComponent {
   private readonly router = inject(Router)
 
 step:number =1;
+errorMsg: string | null = null;
 
 
 
@@ -35,26 +37,37 @@ step:number =1;
 
 
 
-   verifyEmailSubmit():void{
+verifyEmailSubmit(): void {
 
-let emailValue =  this.verifyEmail.get('email')?.value
+  this.errorMsg = ''; // reset old error
 
-this.resetPassword.get('email')?.patchValue(emailValue)
+  const emailValue = this.verifyEmail.get('email')?.value;
+  this.resetPassword.get('email')?.patchValue(emailValue);
 
-this.authService.setEmailVerify(this.verifyEmail.value).subscribe({
-  next:(res)=>{
-    console.log(res);
-    if(res.statusMsg === 'success'){
-      this.step =2;
+  this.authService.setEmailVerify(this.verifyEmail.value).subscribe({
+    next: (res) => {
+      console.log(res);
+      if (res.statusMsg === 'success') {
+        this.step = 2;
+      }
+    },
+    error: (err: HttpErrorResponse) => {
+      console.log(err);
+
+      switch (err.status) {
+        case 404:
+          this.errorMsg = 'This email is not registered';
+          break;
+        case 500:
+          this.errorMsg = 'Server error, try again later';
+          break;
+        default:
+          this.errorMsg = 'Something went wrong';
+      }
     }
-    
-  },
-  error:(err)=>{
-    console.log(err);
-    
-  }
-})
-   }
+  });
+}
+
 
 
 
@@ -67,10 +80,14 @@ this.authService.setCodeVerify(this.verifyCode.value).subscribe({
     }
     
   },
-  error:(err)=>{
-    console.log(err);
-    
+error: (err: HttpErrorResponse) => {
+  if (err.status === 400) {
+    this.errorMsg = 'Invalid verification code';
+  } else {
+    this.errorMsg = 'Something went wrong';
   }
+}
+
 })
    }
 
@@ -86,10 +103,13 @@ localStorage.setItem('userToken', res.token);
     this.router.navigate(['/home'])
 
   },
-  error:(err)=>{
-    console.log(err);
-    
-  }
+error: () => {
+  this.errorMsg = 'Could not reset password';
+}
+
 })
    }
-}
+
+
+
+  }

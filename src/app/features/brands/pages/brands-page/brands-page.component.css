@@ -1,0 +1,83 @@
+/* Scroll Container للـ Brands - Responsive */
+.brands-scroll-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .brands-scroll-container {
+    max-height: calc(100vh - 400px);
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .brands-scroll-container {
+    max-height: 60vh;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .brands-scroll-container {
+    max-height: 50vh;
+  }
+}
+
+/* Custom Scrollbar */
+.brands-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.brands-scroll-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.brands-scroll-container::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 10px;
+}
+
+.brands-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* Checkbox Custom Styles */
+input[type="checkbox"]:checked {
+  background-color: #10b981;
+  border-color: #10b981;
+}
+
+/* Touch targets for mobile */
+@media (max-width: 767px) {
+  /* Increase touch target size on mobile */
+  label {
+    min-height: 60px; /* iOS recommended touch target */
+  }
+  
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Active state for touch devices */
+@media (hover: none) {
+  .active\:bg-gray-100:active {
+    background-color: #f3f4f6;
+  }
+  
+  .active\:scale-95:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Extra small screens */
+@media (min-width: 475px) {
+  .xs\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

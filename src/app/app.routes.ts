@@ -13,72 +13,90 @@ import { CART_ROUTES } from './features/cart/cart.routes';
 import { WISHLIST_ROUTES } from './features/wishlist/wishlist.routes';
 import { Payment_ROUTES } from './features/payment/payment.routes';
 import { ORDERS_ROUTES } from './features/orders/orders.routes';
+import { GuestLayoutComponent } from './core/layout/guest-layout/guest-layout.component';
+import { ChangePasswordPageComponent } from './features/auth/pages/change-password-page/change-password-page.component';
 
 export const routes: Routes = [
-//auth
-{
-    path:'',
-    component:AuthLayoutComponent,
+  // ================= AUTH =================
+  {
+    path: '',
+    component: AuthLayoutComponent,
     canActivate: [loggedGuard],
-    children:Auth_Routes,
-},
-//user
-{
-    path:'',
-    canActivate:[authGuard],
-    component:MainLayoutComponent,
-    children:[
-        {
-            path:'home',
-            children:HOME_ROUTES
-        },
-         {
-            path:'products',
-            children:PRODUCTS_ROUTES
-        },
-        
+    children: Auth_Routes,
+  },
+
+  // ================= PUBLIC (GUEST + AUTH) =================
+  {
+    path: '',
+    component: GuestLayoutComponent,
+    children: [
       {
-        path:'details/:id/:slug',
-        component:ProductsDetailsComponent,
-    },{
-        path:'details/:id',
-        component:ProductsDetailsComponent,
+        path: 'home',
+        children: HOME_ROUTES,
+      },
+      {
+        path: 'products',
+        children: PRODUCTS_ROUTES,
+      },
+      {
+        path: 'categories',
+        children: Categories_Routes,
+      },
+      {
+        path: 'brands',
+        children: BRANDS_ROUTES,
+      },
+      {
+        path: 'details/:id/:slug',
+        component: ProductsDetailsComponent,
+      },
+      {
+        path: 'details/:id',
+        component: ProductsDetailsComponent,
+      },
+      {
+        path: 'wishlist',
+        children: WISHLIST_ROUTES,
+      },
+    ],
+  },
+
+  // ================= AUTH ONLY =================
+  {
+    path: '',
+    component: MainLayoutComponent,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'cart',
+        children: CART_ROUTES,
+      },
+
+      {
+        path: 'allorders',
+        children: ORDERS_ROUTES,
+      },
+      {
+        path: 'payment/:cartId',
+        children: Payment_ROUTES,
+      },
+       {
+      path: 'change-password',
+      component: ChangePasswordPageComponent
     },
-         {
-            path:'categories',
-            children:Categories_Routes
-        },
-         {
-            path:'brands',
-            children:BRANDS_ROUTES
-        },
-         {
-            path:'cart',
-            children:CART_ROUTES
-        },{
-            path:'wishlist',
-            children:WISHLIST_ROUTES
-        },{
-            path:'allorders',
-            children:ORDERS_ROUTES
-        },{
-            path:'payment/:cartId',
-            children:Payment_ROUTES
-        },
-    ]
-},
+    ],
+  },
 
-//guest
-
-
-//not found
-{
-    path:'not-found',
-    loadComponent:() => import('./features/static-pages/not-found/not-found.component').then(m=>m.NotFoundComponent) 
-},
-{
-    path:'**',
-    redirectTo:'not-found',
-
-},
+  // ================= NOT FOUND =================
+  {
+    path: 'not-found',
+    loadComponent: () =>
+      import('./features/static-pages/not-found/not-found.component').then(
+        (m) => m.NotFoundComponent,
+      ),
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found',
+  },
 ];

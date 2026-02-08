@@ -1,5 +1,13 @@
 <div class="bg-white group relative main-card-hover overflow-hidden h-full">
-   <div class="h-full flex flex-col border-2  border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+   <div class="h-full flex flex-col border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+
+      <!-- ===== SALE BADGE ===== -->
+      @if(prod.priceAfterDiscount) {
+         <div class="absolute top-3 start-3 z-10 bg-red-600 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md">
+            -{{ (((prod.price - prod.priceAfterDiscount) / prod.price) * 100) | number:'1.0-0' }}%
+         </div>
+      }
+
       <a [routerLink]="['/details', prod._id, prod.slug]">
          <img class="lg:h-96 md:h-36 w-full object-contain object-center" [src]="prod.imageCover" [alt]="prod.title" />
       </a>
@@ -12,43 +20,44 @@
          </p>
          <div>
             <button 
-            [disabled]="isLoading"
-            (click)="addToCart(prod._id)" class="btn-main w-full justify-center flex items-center mb-2">
+               [disabled]="isLoading"
+               (click)="addToCart(prod._id)"
+               class="btn-main w-full justify-center flex items-center mb-2">
                @if(isLoading){
-               Adding...
-               <i class="fas fa-spinner fa-spin mx-2"></i>
-               }@else {
-               Add to cart
+                  Adding...
+                  <i class="fas fa-spinner fa-spin mx-2"></i>
+               } @else {
+                  Add to cart
                }
-
             </button>
+
+            <!-- ===== PRICE SECTION ===== -->
             <div class="flex items-center justify-between">
                <span class="text-black font-bold inline-flex items-center leading-none text-sm">
-                  Price {{prod.price}} $
+                  @if(prod.priceAfterDiscount) {
+                     <span class="text-red-600">${{ prod.priceAfterDiscount }}</span>
+                     <span class="text-gray-400 line-through text-xs ml-2">${{ prod.price }}</span>
+                  } @else {
+                     ${{ prod.price }}
+                  }
                </span>
-               <span
-                  class="text-rating mr-3 font-bold inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 ">
+               <span class="text-rating mr-3 font-bold inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1">
                   {{prod.ratingsAverage}} <i class="far fa-star"></i>
                </span>
             </div>
-
-
          </div>
-
       </div>
-
    </div>
 
-   <button (click)="toggleWishlist(prod._id)"
-      class="absolute  top-10 end-10 duration-700 group-hover:translate-x-0 cursor-pointer translate-x-[200%]">
-
-      <i class="fa-heart transition text-red-800 text-4xl" [class.fas]="wishlistService.isInWishlist(prod._id)"
+   <!-- ===== WISHLIST HEART ===== -->
+   <button
+      (click)="toggleWishlist(prod._id)"
+      class="absolute top-10 end-10 duration-700 group-hover:translate-x-0 cursor-pointer translate-x-[200%]">
+      <i class="fa-heart transition text-4xl"
+         [class.fas]="wishlistService.isInWishlist(prod._id)"
          [class.far]="!wishlistService.isInWishlist(prod._id)"
          [class.text-red-600]="wishlistService.isInWishlist(prod._id)"
          [class.text-gray-400]="!wishlistService.isInWishlist(prod._id)">
       </i>
-
    </button>
-
-
 </div>

@@ -17,7 +17,6 @@ export class WishlistService {
 
   constructor(private http: HttpClient) {}
 
-  // ✅ GET wishlist
   getWishlist() {
     return this.http.get<WishlistGetResponse>(this.baseUrl, {
       headers: {
@@ -34,7 +33,6 @@ export class WishlistService {
     );
   }
 
-  // ✅ ADD
   addToWishlist(productId: string) {
     return this.http.post<WishlistAddResponse>(
       this.baseUrl,
@@ -51,8 +49,7 @@ export class WishlistService {
     );
   }
 
-  // ✅ REMOVE
-  removeFromWishlist(productId: string) {
+removeFromWishlist(productId: string) {
     return this.http.delete<WishlistAddResponse>(
       `${this.baseUrl}/${productId}`,
       {
@@ -61,12 +58,14 @@ export class WishlistService {
         },
       }
     ).pipe(
-      tap(res => {
-        this.wishlistIdsSubject.next(new Set(res.data));
+      tap(() => {
+        const currentIds = new Set(this.wishlistIdsSubject.value);
+        currentIds.delete(productId);
+        this.wishlistIdsSubject.next(currentIds);
+        this.numOfWishListItems = currentIds.size;
       })
     );
   }
-
   // ❤️ for heart color
   isInWishlist(productId: string): boolean {
     return this.wishlistIdsSubject.value.has(productId);
