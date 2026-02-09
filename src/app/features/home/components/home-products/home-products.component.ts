@@ -19,7 +19,7 @@ ngOnInit(): void {
   this.getAllProducts()
 }
 getAllProducts(){
-  this.productsService.getAllProducts
+  this.productsService.getAllProducts()
 }
 }
 
