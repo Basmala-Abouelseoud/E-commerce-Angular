@@ -1,14 +1,12 @@
-// categories.component.ts
+import { Subcategory } from './../../../home/Interfaces/IAllProductsResponse';
 import { Component, inject, OnInit } from '@angular/core';
 import { CategoriesService } from '../../services/categories.service';
 import { CommonModule } from '@angular/common';
 import { SubcategoriesService } from '../../services/subcategories-response.service';
-import { Subcategory } from '../../interfaces/Subcategory';
 import { FormsModule } from '@angular/forms';
 import { ProductsService } from '../../../products/services/products.service';
 import { CardProductsComponent } from "../../../products/components/card-products/card-products.component";
 import { LoadingSpinnerComponent } from "../../../../shared/components/loading-spinner/loading-spinner.component";
-
 
 
 @Component({
@@ -49,15 +47,21 @@ this.categoriesService.getAllCategories()
 }
 
 
+
+
+
   loadAllProducts(): void {
-    this.loadingProducts = true;
-    this.productsService.getAllProducts(1, 100); // جلب 100 منتج
-    
-    setTimeout(() => {
-      this.loadingProducts = false;
-      this.filteredProducts = this.productsService.allProducts || [];
-    }, 1000);
-  }
+  this.loadingProducts = true;
+  this.productsService.getAllProducts(1, 1000);
+
+  setTimeout(() => {
+    this.loadingProducts = false;
+    this.filteredProducts = this.productsService.allProducts || [];
+
+    this.buildSubcategoriesFromProducts();
+  }, 1000);
+}
+
 
   toggleCategory(categoryId: string): void {
     if (this.expandedCategories.has(categoryId)) {
@@ -154,4 +158,30 @@ this.categoriesService.getAllCategories()
   getSubcategoryById(subcategoryId: string) {
     return this.subcategoriesService.allSubcategories?.find(s => s._id === subcategoryId);
   }
+
+
+
+  buildSubcategoriesFromProducts(): void {
+  this.categorySubcategories.clear();
+
+  for (const product of this.productsService.allProducts || []) {
+    if (!product.subcategory || !product.category?._id) continue;
+
+    const categoryId = product.category._id;
+
+    if (!this.categorySubcategories.has(categoryId)) {
+      this.categorySubcategories.set(categoryId, []);
+    }
+
+    for (const sub of product.subcategory) {
+      const subs = this.categorySubcategories.get(categoryId)!;
+
+      const exists = subs.some(s => s._id === sub._id);
+      if (!exists) {
+        subs.push(sub);
+      }
+    }
+  }
+}
+
 }
