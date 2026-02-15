@@ -6,5 +6,6 @@ export const PRODUCTS_ROUTES : Routes =[
     {
         path:'',
         component:ProductPageComponent,
+        title:'Products Page'
     }
 ];

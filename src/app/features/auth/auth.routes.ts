@@ -14,14 +14,17 @@ export const Auth_Routes:Routes=[
     },
     {
         path:'login',
-        component:LoginPageComponent
+        component:LoginPageComponent,
+title:'Login Page'
     },
     {
         path:'register',
-        component:RegisterPageComponent
+        component:RegisterPageComponent,
+        title:'Register Page'
     },
     {
         path:'forget-password',
-        component:ForgetPasswordPageComponent
+        component:ForgetPasswordPageComponent,
+        title:'Forget Password Page'
     }
 ]

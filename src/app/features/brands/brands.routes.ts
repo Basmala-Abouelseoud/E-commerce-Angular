@@ -4,6 +4,7 @@ import { BrandsPageComponent } from "./pages/brands-page/brands-page.component";
 export const BRANDS_ROUTES :Routes = [
     {
         path:'',
-        component:BrandsPageComponent
+        component:BrandsPageComponent,
+        title:'Brands Page'
     }
 ]

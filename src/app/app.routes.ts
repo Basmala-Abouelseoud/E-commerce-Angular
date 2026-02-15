@@ -49,10 +49,12 @@ export const routes: Routes = [
       {
         path: 'details/:id/:slug',
         component: ProductsDetailsComponent,
+        title:'Product Details'
       },
       {
         path: 'details/:id',
         component: ProductsDetailsComponent,
+         title:'Product Details'
       },
       {
         path: 'wishlist',
@@ -82,7 +84,8 @@ export const routes: Routes = [
       },
        {
       path: 'change-password',
-      component: ChangePasswordPageComponent
+      component: ChangePasswordPageComponent,
+       title:'Change Password Page'
     },
     ],
   },
@@ -94,6 +97,7 @@ export const routes: Routes = [
       import('./features/static-pages/not-found/not-found.component').then(
         (m) => m.NotFoundComponent,
       ),
+      title:'Not Found Page'
   },
   {
     path: '**',

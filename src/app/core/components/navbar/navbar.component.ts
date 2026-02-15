@@ -21,6 +21,8 @@ export class NavbarComponent implements OnInit {
   isUserDropdownOpen = false;
 
   isLogin$ = this.authService.isLoggedIn$;
+  count = 0;
+
 
   logOut(): void {
     this.authService.logOut();
@@ -28,6 +30,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.cartService.getCart();
-    this.wishlistService.getWishlist();
-  }
+  this.wishlistService.wishlistCount$.subscribe(c => {
+    this.count = c;
+  });  }
+
+
+
 }

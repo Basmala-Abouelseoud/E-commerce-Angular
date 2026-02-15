@@ -4,6 +4,7 @@ import { PaymentPageComponent } from "./components/payment-page/payment-page.com
 export const Payment_ROUTES : Routes = [
     {
         path:'',
-        component:PaymentPageComponent
+        component:PaymentPageComponent,
+         title:'Payments Page'
     }
 ]

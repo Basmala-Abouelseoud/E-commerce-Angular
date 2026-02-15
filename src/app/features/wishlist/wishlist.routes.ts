@@ -5,5 +5,6 @@ export const WISHLIST_ROUTES:Routes = [
         path:'',
         loadComponent:() => 
             import('./page/wishlist-pag/wishlist-pag.component').then((m) => m.WishlistPagComponent) ,
+     title:'Wishlist Page'
     },
 ];
