@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { STORED_KEYS } from '../../../../core/constants/storedKeys';
 
 @Component({
   selector: 'app-forget-password-form',
@@ -98,9 +99,10 @@ error: (err: HttpErrorResponse) => {
 this.authService.resetPass(this.resetPassword.value).subscribe({
   next:(res)=>{
     console.log(res);
-localStorage.setItem('userToken', res.token);
+localStorage.setItem(STORED_KEYS.USER_TOKEN, res.token);
+this.authService.decodeToken(res.token);
+this.router.navigate(['/home']);
 
-    this.router.navigate(['/home'])
 
   },
 error: () => {
